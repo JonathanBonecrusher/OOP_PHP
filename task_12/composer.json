@@ -1,0 +1,15 @@
+{
+    "name": "xtdtuuht/task_12",
+    "autoload": {
+        "psr-4": {
+            "Xtdtuuht\\Task12\\": "src/"
+        },
+        "files": [
+            "src/Point.php",
+            "src/Segment.php",
+            "src/SegmentFunction.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
