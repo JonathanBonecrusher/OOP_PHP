@@ -1,0 +1,14 @@
+{
+    "name": "xtdtuuht/task_10",
+    "autoload": {
+        "psr-4": {
+            "Xtdtuuht\\Task10\\": "src/"
+        },
+        "files": [
+            "src/Point.php",
+            "src/PointFunction.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
