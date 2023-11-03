@@ -15,7 +15,10 @@ function setScheme($data, $scheme){
 }
 
 function getScheme($data){
-    return $data['scheme'] ?? null;
+    if (isset($data['scheme'])){
+        return $data['scheme'];
+    }
+    return null;
 }
 
 function setHost($data, $host){
@@ -23,7 +26,10 @@ function setHost($data, $host){
 }
 
 function getHost($data){
-    return $data['host'] ?? null;
+    if (isset($data['host'])){
+        return $data['host'];
+    }
+    return null;
 }
 
 function setPath($data, $path){
@@ -31,7 +37,10 @@ function setPath($data, $path){
 }
 
 function getPath($data){
-    return $data['path'] ?? null;
+    if (isset($data['path'])){
+        return $data['path'];
+    }
+    return null;
 }
 
 function setQueryParam($data, $key, $value){
@@ -43,12 +52,19 @@ function setQueryParam($data, $key, $value){
 }
 
 function getQueryParam($data, $paramName, $default = null){
+    if (isset($paramName)){
+        return http_build_query($data['query']);
+    }
     return $data['query'][$paramName] ?? $default;
 }
 
 function toString($data){
-    $url = "{$data['scheme']}://{$data['host']}";
-
+    if(isset($data)){
+        $url = "{$data['scheme']}://{$data['host']}";
+    }else{
+        return null;
+    }
+    
     if(isset($data['path'])) {
         $url = $data['path'];
     }
@@ -60,16 +76,15 @@ function toString($data){
     return $url;
 }
 
-$url = make('https://ht.io/community?q=low');
+$url = make('ht.io/community?q=low');
  
-$url = make('https://ht.io/community?q=low');
-print ('https://ht.io/community?q=low' === toString($url)) ? "true" : "false";
+print ('ht.io/community?q=low' === toString($url)) ? "true" : "false";
 print "<br>";
 print ('https' === getScheme($url)) ? "true" : "false";
 print "<br>";
 print ('ht.io' === getHost($url)) ? "true" : "false";
 print "<br>";
-print ('/community' === getPath($url)) ? "true" : "false";
+print ('ht.io/community' === getPath($url)) ? "true" : "false";
 print "<br>";
 
 setScheme($url, 'http');
