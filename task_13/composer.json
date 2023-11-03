@@ -1,0 +1,13 @@
+{
+    "name": "xtdtuuht/task_13",
+    "autoload": {
+        "psr-4": {
+            "Xtdtuuht\\Task13\\": "src/"
+        },
+        "files": [
+            "src/Rational.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
