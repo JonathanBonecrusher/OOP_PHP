@@ -1,0 +1,58 @@
+namespace App;
+
+use App\Easy;
+use App\Normal;
+
+class TicTacToe
+{
+    private object $game;
+    private array $field;
+    // BEGIN (write your solution here)
+    public function __construct($level = 'easy')
+    {
+        $this->field = ['1' => [1 => '', 2 => '', 3 => ''],
+                        '2' => [1 => '', 2 => '', 3 => ''],
+                        '3' => [1 => '', 2 => '', 3 => '']];
+
+        $this->game = $level === 'easy' ?  new Easy($this->field) : new Normal($this->field);
+    }
+
+    public function makeStep($line, $column, $sign)
+    {
+        return $this->field[$line][$column] = $sign;
+    }
+
+    public function isWinner($sign): bool
+    {
+        $diagonal1 = [$this->field['1']['1'], $this->field['2']['2'], $this->field['3']['3']];
+        $diagonal2 = [$this->field['3']['1'], $this->field['2']['2'], $this->field['1']['3']];
+        $column1 = array_column($this->field, '1');
+        $column2 = array_column($this->field, '2');
+        $column3 = array_column($this->field, '3');
+        $winCombinations = [...$this->field, $diagonal1, $diagonal2, $column1, $column2, $column3];
+        return array_reduce($winCombinations, function ($acc, $item) use ($sign) {
+            $results[] =  array_reduce($item, fn ($ac, $it)=> $it === $sign ? $ac + 1 : $ac, 0);
+            foreach ($results as $result) {
+                if ($result === 3) {
+                    $acc = true;
+                    break;
+                }
+            }
+            return $acc;
+        }, false);
+    }
+
+    public function go($line = 0, $column = 0): bool
+    {
+        if ($line !== 0 && $column !== 0) {
+            $this->makeStep($line, $column, 'X');
+            return $this->isWinner('X');
+        }
+        $AiIndex = $this->game->calculate();
+        $AiLine = $AiIndex['line'];
+        $AiColumn = $AiIndex['column'];
+        $this->makeStep($AiLine, $AiColumn, '0');
+        return $this->isWinner('0');
+    }
+    // END
+}
