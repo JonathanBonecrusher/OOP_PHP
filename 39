@@ -1,0 +1,39 @@
+namespace App;
+
+class DatabaseConfigLoader
+{
+    private array $path;
+
+    public function __construct(string $dir)
+    {
+        $this->path = glob($dir . '/database*');
+    }
+
+    public function load(string $env): array
+    {
+        $fileName = array_filter($this->path, fn($item) => str_contains($item, $env));
+        $fileContent = array_map(
+            fn($item)=>json_decode(file_get_contents($item), true),
+            $fileName
+        );
+        $collection = function ($fileName) use (&$collection) {
+            $result = [];
+            foreach ($fileName as $key => $value) {
+                if (!is_array($value)) {
+                    $result[$key] = $value;
+                } else {
+                    $result = array_merge($result, $collection($value));
+                }
+            }
+            return $result;
+        };
+        $result = $collection($fileContent);
+        if (array_key_exists('extend', $result)) {
+            $newConfiguration = $this->load($result['extend']);
+            unset($result['extend']);
+            return array_merge($newConfiguration, $result);
+        } else {
+            return $result;
+        }
+    }
+}
