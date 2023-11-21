@@ -1,0 +1,18 @@
+namespace App\HTML;
+
+function getLinks(array $tags): array
+{
+    $searchingTags = array_filter($tags, fn($item)=>$item['name'] === 'a' || $item['name'] === 'link' ||
+    $item['name'] === 'img');
+    return array_reduce($searchingTags, function ($acc, $item) {
+        switch ($item) {
+            case $item['name'] === 'img':
+                $acc[] =  $item['src'];
+                break;
+            case $item['name'] === 'a' || $item['name'] === 'link':
+                $acc[] = $item['href'];
+                break;
+        }
+        return $acc;
+    }, []);
+}
