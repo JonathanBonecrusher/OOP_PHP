@@ -1,0 +1,14 @@
+class Disconnected
+{
+    private $state;
+
+    public function __construct()
+    {
+        $this->state = 'disconnected';
+    }
+
+    public function getName()
+    {
+        return $this->state;
+    }
+}
