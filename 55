@@ -1,0 +1,19 @@
+namespace App;
+
+// BEGIN (write your solution here)
+class SmartSplFileInfo extends \SplFileInfo
+{
+    public function getSize(string $mesure = 'b')
+    {
+        switch ($mesure) {
+            case '':
+            case 'b':
+                return parent::getSize();
+            case 'kb':
+                $size = parent::getSize();
+                return $size / 1024;
+            default:
+                throw new \Exception('error');
+        }
+    }
+}
