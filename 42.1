@@ -1,28 +1,12 @@
-use App\Comparable;
-
-class User implements Comparable
+function getGreeting($user)
 {
-    private $name;
-    private $id;
-
-    public function __construct($id, $name)
-    {
-        $this->name = $name;
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function compareTo($user): bool
-    {
-        return $this->id === $user->id;
-    }
+    $mapping = [
+        'guest' => function ($guest) {
+            return "Nice to meet you {$guest->getName()}!";
+        },
+        'user' => function ($user) {
+            return "Hello {$user->getName()}!";
+        }
+    ];
+    return $mapping[$user->getTypeName()]($user);
 }
