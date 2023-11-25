@@ -1,43 +1,32 @@
 <?php
 
 namespace App;
-
-class InMemoryKV implements KeyValueStorageInterface, \Serializable
+class InMemoryKV
 {
-    private $map;
+    private array $data;
 
     public function __construct($initial = [])
     {
-        $this->map = $initial;
+        $this->data = $initial;
     }
 
     public function set($key, $value)
     {
-        $this->map[$key] = $value;
+        $this->data[$key] = $value;
     }
 
     public function unset($key)
     {
-        unset($this->map[$key]);
+        unset($this->data[$key]);
     }
 
     public function get($key, $default = null)
     {
-        return $this->map[$key] ?? $default;
+        return $this->data[$key] ?? $default;
     }
 
     public function toArray()
     {
-        return $this->map;
-    }
-
-    public function serialize()
-    {
-        return json_encode($this->map);
-    }
-    
-    public function unserialize($data)
-    {
-        $this->map = json_decode($data, true);
+        return $this->data;
     }
 }
